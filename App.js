@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import {StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Button from './components/Button';
+import axios from 'axios';
 
-
-
-
+const API_KEY = 'AIzaSyCaZliArhyJUaWzXK9WLCW9es8K_vEwPow';
+const URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 
 export default function App() {
   return (
@@ -52,11 +52,46 @@ const pickImageAsync = async () => {
   });
 
   if (!result.canceled) {
-    console.log(result);
+    console.log(result);//Original
+    // * * * * *
+    const base64Image = result.assets[0].base64;
+    try {
+      const requestBody = {
+        requests: [
+          {
+            image: {
+              content: base64Image,
+            },
+            features: [
+              {
+                type: 'LABEL_DETECTION', // Tipo de análisis que deseas realizar
+                maxResults: 5, // Número máximo de resultados
+              },
+            ],
+          },
+        ],
+      };
+
+      const response = await axios.post(URL, requestBody);
+      const labels = response.data.responses[0].labelAnnotations;
+
+      // Mostrar resultados
+      if (labels) {
+        let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
+        Alert.alert('Resultados:', resultText);
+      } else {
+        Alert.alert('No se detectaron etiquetas.');
+      }
+    } catch (error) {
+      console.error('Error al analizar la imagen:', error);
+      Alert.alert('Error', 'Hubo un problema al analizar la imagen.');
+    }
+    // * * * * *
   } else {
     alert('You did not select any image.');
   }
 };
+
 
 const styles = StyleSheet.create({
   container: {
