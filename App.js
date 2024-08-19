@@ -39,7 +39,73 @@ const takePhotoAsync = async () => {
   });
 
   if (!result.canceled) {
-    console.log(result);
+    // Obtener la imagen en base64
+    const base64Image = result.assets[0].base64;
+
+    try {
+      // Configurar el cuerpo de la solicitud
+      const requestBody = {
+        requests: [
+          {
+            image: {
+              content: base64Image,
+            },
+            features: [
+              {
+                type: 'LOGO_DETECTION',
+                maxResults: 5,
+              },
+              {
+                type: 'LABEL_DETECTION',
+                maxResults: 5,
+              },
+              {
+                type: 'TEXT_DETECTION',
+              },
+            ],
+          },
+        ],
+      };
+
+      // Realizar la solicitud POST a la API de Google Cloud Vision
+      const response = await axios.post(URL, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // Obtener las etiquetas de la respuesta
+      const labels = response.data.responses[0].labelAnnotations;
+      const logoAnnotations = response.data.responses[0].logoAnnotations;
+
+
+      // Mostrar los resultados
+
+      if (logoAnnotations && logoAnnotations.length > 0) {
+        let logoText = logoAnnotations.map(logo => `${logo.description}: ${Math.round(logo.score * 100)}%`).join('\n');
+        Alert.alert('Logos detectados:', logoText);
+      } else {
+        Alert.alert('No se detectaron logos.');
+      }
+
+      if (labels) {
+        let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
+        Alert.alert('Resultados:', resultText);
+      } else {
+        Alert.alert('No se detectaron etiquetas.');
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error('Error en la solicitud:', error.response.data);
+        Alert.alert('Error', `Código de error: ${error.response.status}\nMensaje: ${error.response.data.error.message}`);
+      } else if (error.request) {
+        console.error('Error en la solicitud:', error.request);
+        Alert.alert('Error', 'No se recibió respuesta del servidor.');
+      } else {
+        console.error('Error', error.message);
+        Alert.alert('Error', 'Hubo un problema al analizar la imagen.');
+      }
+    }
   } else {
     alert('You did not take any photo.');
   }
