@@ -66,6 +66,10 @@ const pickImageAsync = async () => {
             },
             features: [
               {
+                type: 'LOGO_DETECTION',
+                maxResults: 5,
+              },
+              {
                 type: 'LABEL_DETECTION',
                 maxResults: 5,
               },
@@ -83,8 +87,17 @@ const pickImageAsync = async () => {
 
       // Obtener las etiquetas de la respuesta
       const labels = response.data.responses[0].labelAnnotations;
+      const logoAnnotations = response.data.responses[0].logoAnnotations;
 
       // Mostrar los resultados
+
+      if (logoAnnotations && logoAnnotations.length > 0) {
+        let logoText = logoAnnotations.map(logo => `${logo.description}: ${Math.round(logo.score * 100)}%`).join('\n');
+        Alert.alert('Logos detectados:', logoText);
+      } else {
+        Alert.alert('No se detectaron logos.');
+      }
+
       if (labels) {
         let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
         Alert.alert('Resultados:', resultText);
