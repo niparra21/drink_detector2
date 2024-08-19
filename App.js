@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Button from './components/Button';
 import axios from 'axios';
@@ -49,13 +49,15 @@ const pickImageAsync = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({
     allowsEditing: true,
     quality: 1,
+    base64: true, // Obtener imagen en base64
   });
 
   if (!result.canceled) {
-    console.log(result);//Original
-    // * * * * *
+    // Obtener la imagen en base64
     const base64Image = result.assets[0].base64;
+
     try {
+      // Configurar el cuerpo de la solicitud
       const requestBody = {
         requests: [
           {
@@ -64,18 +66,25 @@ const pickImageAsync = async () => {
             },
             features: [
               {
-                type: 'LABEL_DETECTION', // Tipo de análisis que deseas realizar
-                maxResults: 5, // Número máximo de resultados
+                type: 'LABEL_DETECTION',
+                maxResults: 5,
               },
             ],
           },
         ],
       };
 
-      const response = await axios.post(URL, requestBody);
+      // Realizar la solicitud POST a la API de Google Cloud Vision
+      const response = await axios.post(URL, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // Obtener las etiquetas de la respuesta
       const labels = response.data.responses[0].labelAnnotations;
 
-      // Mostrar resultados
+      // Mostrar los resultados
       if (labels) {
         let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
         Alert.alert('Resultados:', resultText);
@@ -83,12 +92,19 @@ const pickImageAsync = async () => {
         Alert.alert('No se detectaron etiquetas.');
       }
     } catch (error) {
-      console.error('Error al analizar la imagen:', error);
-      Alert.alert('Error', 'Hubo un problema al analizar la imagen.');
+      if (error.response) {
+        console.error('Error en la solicitud:', error.response.data);
+        Alert.alert('Error', `Código de error: ${error.response.status}\nMensaje: ${error.response.data.error.message}`);
+      } else if (error.request) {
+        console.error('Error en la solicitud:', error.request);
+        Alert.alert('Error', 'No se recibió respuesta del servidor.');
+      } else {
+        console.error('Error', error.message);
+        Alert.alert('Error', 'Hubo un problema al analizar la imagen.');
+      }
     }
-    // * * * * *
   } else {
-    alert('You did not select any image.');
+    alert('No seleccionaste ninguna imagen.');
   }
 };
 
