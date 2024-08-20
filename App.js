@@ -150,6 +150,10 @@ const pickImageAsync = async () => {
                 type: 'LABEL_DETECTION',
                 maxResults: 5,
               },
+              {
+                type: 'TEXT_DETECTION',
+                maxResults: 5,
+              },
             ],
           },
         ],
@@ -165,6 +169,7 @@ const pickImageAsync = async () => {
       // Obtener las etiquetas de la respuesta
       const labels = response.data.responses[0].labelAnnotations;
       const logoAnnotations = response.data.responses[0].logoAnnotations;
+      const textAnnotations = response.data.responses[0].textAnnotations;
 
       // Mostrar los resultados
 
@@ -181,6 +186,14 @@ const pickImageAsync = async () => {
       } else {
         Alert.alert('No se detectaron etiquetas.');
       }
+
+      if (textAnnotations && textAnnotations.length > 0) {
+        const detectedText = textAnnotations[0].description;
+        Alert.alert('Texto detectado:', detectedText);
+      } else {
+        Alert.alert('No se detectó texto.');
+      }
+
     } catch (error) {
       if (error.response) {
         console.error('Error en la solicitud:', error.response.data);
