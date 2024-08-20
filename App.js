@@ -36,6 +36,7 @@ const takePhotoAsync = async () => {
   let result = await ImagePicker.launchCameraAsync({
     allowsEditing: true,
     quality: 1,
+    base64:true,
   });
 
   if (!result.canceled) {
@@ -61,6 +62,7 @@ const takePhotoAsync = async () => {
               },
               {
                 type: 'TEXT_DETECTION',
+                maxResults: 5,
               },
             ],
           },
@@ -77,6 +79,7 @@ const takePhotoAsync = async () => {
       // Obtener las etiquetas de la respuesta
       const labels = response.data.responses[0].labelAnnotations;
       const logoAnnotations = response.data.responses[0].logoAnnotations;
+      const textAnnotations = response.data.responses[0].textAnnotations;
 
 
       // Mostrar los resultados
@@ -94,6 +97,14 @@ const takePhotoAsync = async () => {
       } else {
         Alert.alert('No se detectaron etiquetas.');
       }
+
+      if (textAnnotations && textAnnotations.length > 0) {
+        const detectedText = textAnnotations[0].description;
+        Alert.alert('Texto detectado:', detectedText);
+      } else {
+        Alert.alert('No se detectó texto.');
+      }
+
     } catch (error) {
       if (error.response) {
         console.error('Error en la solicitud:', error.response.data);
