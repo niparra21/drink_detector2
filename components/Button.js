@@ -1,20 +1,21 @@
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function Button({ label, onPress }) {
+export default function Button({ label, onPress, fontFamily }) {
   return (
     <View style={styles.buttonContainer}>
       <Pressable style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonLabel}>{label}</Text>
+        <Text style={[styles.buttonLabel, { fontFamily }]}>{label}</Text>
       </Pressable>
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
   buttonContainer: {
-    width: 320,
-    height: 68,
+    width: 140,
+    height: 58,
     marginHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',

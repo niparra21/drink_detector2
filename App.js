@@ -1,13 +1,34 @@
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, StyleSheet, Text, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Button from './components/Button';
 import axios from 'axios';
+import * as Font from 'expo-font';
+
+  
 
 const API_KEY = 'AIzaSyCaZliArhyJUaWzXK9WLCW9es8K_vEwPow';
 const URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 
 export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadFont() {
+      await Font.loadAsync({
+        'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
+      });
+      setFontLoaded(true);
+    }
+    loadFont();
+  }, []);
+
+  if (!fontLoaded) {
+    return null; // Mostrar un indicador de carga si la fuente no se ha cargado
+  }
+
+
   return (
     <View style={styles.container}>
       <View style={styles.inicioContainer}></View>
@@ -16,16 +37,20 @@ export default function App() {
           Drink detector
         </Text>
       </View>
+
       <View style={styles.imagenContainer}>
         <Image
           source={require('./assets/imagenCentral.png')} // Reemplaza con la ruta a tu imagen local
           style={styles.image}
         />
       </View>
-      <View style={styles.footerContainer}>
-        <Button label="Choose a photo" onPress={pickImageAsync} />
-        <View style={styles.spacer}></View>
-        <Button label="Use this photo" onPress={takePhotoAsync} />
+      <View style={styles.footerContainerBoton}>
+        <View style={styles.spacer}>
+        <Button label="Galeria" onPress={pickImageAsync} fontFamily="Poppins-Bold"/>
+        </View>
+        <View style={styles.spacer}>
+        <Button label="Camara" onPress={takePhotoAsync} fontFamily="Poppins-Bold"/>
+        </View>
       </View>
       <StatusBar style="auto" />
     </View>
@@ -248,6 +273,7 @@ const pickImageAsync = async () => {
 };
 
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -257,8 +283,18 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#000000',
-    fontSize: 24, // Tamaño del texto más grande
-    marginBottom: 20, // Espacio entre el texto y los botones
+    fontSize: 30,
+    marginBottom: 0,
+    fontFamily: 'Poppins-Bold', // Cambiar a la fuente personalizada
+  },
+  spacerContainer: {
+    width: '100%', // Ocupar todo el ancho
+    height: '19%', // Ocupar el 10% de la altura total
+    backgroundColor: '#d2c4a8',
+    justifyContent: 'center', // Centrar contenido verticalmente
+    alignItems: 'center', // Centrar contenido horizontalmente
+    position: 'absolute', // Posicionarlo en la parte superior
+    top: '20%', // Anclarlo en la parte superior
   },
   inicioContainer: {
     width: '100%', // Ocupar todo el ancho
@@ -280,27 +316,34 @@ const styles = StyleSheet.create({
 },
 imagenContainer: {
   width: '100%',
-  height: '48%',
+  height: '55%', // Aumenté el tamaño
   justifyContent: 'center',
   alignItems: 'center',
   position: 'absolute',
-  top: '20%',
+  top: '20%', // Ajusté el margen superior
+  backgroundColor: '#b55b1f', // Color de fondo para evitar que se vea blanco
 },
 image: {
   width: '100%',
   height: '100%',
-  resizeMode: 'contain',
+  resizeMode: 'cover', // Cambié a 'cover'
 },
-footerContainer: {
-    width: '100%', // Ocupar todo el ancho
-    height: '35%', // Ocupar el 10% de la altura total
-    backgroundColor: '#b55b1f',
-    justifyContent: 'center', // Centrar contenido verticalmente
-    alignItems: 'center', // Centrar contenido horizontalmente
-    position: 'absolute', // Posicionarlo en la parte superior
-    top: '68%', // Anclarlo en la parte superior
+
+footerContainerBoton: {
+  width: '100%', // Ocupar todo el ancho
+  height: '20%', // Ocupar el 10% de la altura total
+  backgroundColor: '#b55b1f',
+  flexDirection: 'row', // Alinear los botones en fila
+  justifyContent: 'space-around', // Distribuir espacio entre los botones
+  alignItems: 'center',
+  position: 'absolute',
+  top: '80%', // Anclarlo en la parte superior
 },
 spacer: {
-  height: 20,
+  width: '40%', // Ancho de cada botón
+  height: '70%', // Ajustar altura de los botones
+  backgroundColor: '#b55b1f',
+  justifyContent: 'center', // Centrar contenido verticalmente
+  alignItems: 'center', // Centrar contenido horizontalmente
 },
 });
