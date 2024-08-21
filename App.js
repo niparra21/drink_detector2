@@ -292,8 +292,13 @@ image: {
   resizeMode: 'contain',
 },
 footerContainer: {
-  flex: 1 / 3,
-  alignItems: 'center',
+    width: '100%', // Ocupar todo el ancho
+    height: '35%', // Ocupar el 10% de la altura total
+    backgroundColor: '#b55b1f',
+    justifyContent: 'center', // Centrar contenido verticalmente
+    alignItems: 'center', // Centrar contenido horizontalmente
+    position: 'absolute', // Posicionarlo en la parte superior
+    top: '68%', // Anclarlo en la parte superior
 },
 spacer: {
   height: 20,
