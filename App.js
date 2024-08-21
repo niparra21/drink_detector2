@@ -181,7 +181,7 @@ const pickImageAsync = async () => {
       } else if(labels){
         let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
         Alert.alert('Resultados:', resultText);
-          if(resultText.toLowerCase().includes('tropical')){
+          if(detectedText.toLowerCase().includes('tropical')){
             Alert.alert('Marca: Florida bebidas, TROPICAL');
           }
       } else {
