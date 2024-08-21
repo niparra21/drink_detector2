@@ -191,7 +191,7 @@ const pickImageAsync = async () => {
         } else {
           Alert.alert('Texto detectado:', detectedText);
         }
-      } else if(objectAnnotations && objectAnnotations.length > 0){
+      } else if(localizedObjectAnnotations && localizedObjectAnnotations.length > 0){
         objectResult = 'Objetos detectados:\n' + localizedObjectAnnotations.map(object => `${object.name}: ${Math.round(object.score * 100)}%`).join('\n');
         const foundGlass = localizedObjectAnnotations.find(object => object.name.toLowerCase() === 'cup' || object.name.toLowerCase() === 'glass');
       }else if(labels){
