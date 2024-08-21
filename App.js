@@ -172,7 +172,24 @@ const pickImageAsync = async () => {
       const textAnnotations = response.data.responses[0].textAnnotations;
 
       // Mostrar los resultados
+      if (logoAnnotations && logoAnnotations.length > 0) {
+        let logoText = logoAnnotations.map(logo => `${logo.description}: ${Math.round(logo.score * 100)}%`).join('\n');
+        Alert.alert('Logos detectados:', logoText);
+      } else if (textAnnotations && textAnnotations.length > 0){
+        const detectedText = textAnnotations[0].description;
+        Alert.alert('Texto detectado:', detectedText);
+      } else if(labels){
+        let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
+        Alert.alert('Resultados:', resultText);
+          if(resultText.toLowerCase().includes('tropical')){
+            Alert.alert('Marca: Florida bebidas, TROPICAL');
+          }
+      } else {
+        Alert.alert('No se detectó elementos para procesar');
+      }
 
+
+/*
       if (logoAnnotations && logoAnnotations.length > 0) {
         let logoText = logoAnnotations.map(logo => `${logo.description}: ${Math.round(logo.score * 100)}%`).join('\n');
         Alert.alert('Logos detectados:', logoText);
@@ -187,13 +204,16 @@ const pickImageAsync = async () => {
         Alert.alert('No se detectaron etiquetas.');
       }
 
+
       if (textAnnotations && textAnnotations.length > 0) {
         const detectedText = textAnnotations[0].description;
         Alert.alert('Texto detectado:', detectedText);
       } else {
         Alert.alert('No se detectó texto.');
       }
+*/
 
+      
     } catch (error) {
       if (error.response) {
         console.error('Error en la solicitud:', error.response.data);
