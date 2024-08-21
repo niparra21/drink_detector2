@@ -174,48 +174,24 @@ const pickImageAsync = async () => {
       // Mostrar los resultados
       if (logoAnnotations && logoAnnotations.length > 0) {
         let logoText = logoAnnotations.map(logo => `${logo.description}: ${Math.round(logo.score * 100)}%`).join('\n');
-        Alert.alert('Marca detectada:', logoText);
+        if(logoText.toLowerCase().includes('the coca-cola company')){
+          Alert.alert('Coca-Cola Detectado');
+        } else {
+          Alert.alert('Marca detectada:', logoText);
+        }
       } else if (textAnnotations && textAnnotations.length > 0){
         const detectedText = textAnnotations[0].description;
-        Alert.alert('Texto detectado:', detectedText);
         if(detectedText.toLowerCase().includes('tropical')){
           Alert.alert('Marca: Florida bebidas, TROPICAL');
+        } else {
+          Alert.alert('Texto detectado:', detectedText);
         }
       } else if(labels){
         let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
         Alert.alert('Resultados:', resultText);
-          if(detectedText.toLowerCase().includes('tropical')){
-            Alert.alert('Marca: Florida bebidas, TROPICAL');
-          }
       } else {
         Alert.alert('No se detectó elementos para procesar');
       }
-
-
-/*
-      if (logoAnnotations && logoAnnotations.length > 0) {
-        let logoText = logoAnnotations.map(logo => `${logo.description}: ${Math.round(logo.score * 100)}%`).join('\n');
-        Alert.alert('Logos detectados:', logoText);
-      } else {
-        Alert.alert('No se detectaron logos.');
-      }
-
-      if (labels) {
-        let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
-        Alert.alert('Resultados:', resultText);
-      } else {
-        Alert.alert('No se detectaron etiquetas.');
-      }
-
-
-      if (textAnnotations && textAnnotations.length > 0) {
-        const detectedText = textAnnotations[0].description;
-        Alert.alert('Texto detectado:', detectedText);
-      } else {
-        Alert.alert('No se detectó texto.');
-      }
-*/
-
       
     } catch (error) {
       if (error.response) {
