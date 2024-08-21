@@ -40,7 +40,7 @@ export default function App() {
 
       <View style={styles.imagenContainer}>
         <Image
-          source={require('./assets/imagenCentral.png')} // Reemplaza con la ruta a tu imagen local
+          source={require('./assets/imagenCentral3.jpeg')} // Reemplaza con la ruta a tu imagen local
           style={styles.image}
         />
       </View>
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    color: '#000000',
+    color: '#FFFFFF',
     fontSize: 30,
     marginBottom: 0,
     fontFamily: 'Poppins-Bold', // Cambiar a la fuente personalizada
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   tituloContainer: {
   width: '100%', // Ocupar todo el ancho
   height: '15%', // Ocupar el 10% de la altura total
-  backgroundColor: '#b55b1f',
+  backgroundColor: '#2C3E50',
   justifyContent: 'center', // Centrar contenido verticalmente
   alignItems: 'center', // Centrar contenido horizontalmente
   position: 'absolute', // Posicionarlo en la parte superior
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
 },
 imagenContainer: {
   width: '100%',
-  height: '55%', // Aumenté el tamaño
+  height: '60%', // Aumenté el tamaño
   justifyContent: 'center',
   alignItems: 'center',
   position: 'absolute',
@@ -332,7 +332,7 @@ image: {
 footerContainerBoton: {
   width: '100%', // Ocupar todo el ancho
   height: '20%', // Ocupar el 10% de la altura total
-  backgroundColor: '#b55b1f',
+  backgroundColor: '#2C3E50',
   flexDirection: 'row', // Alinear los botones en fila
   justifyContent: 'space-around', // Distribuir espacio entre los botones
   alignItems: 'center',
@@ -342,7 +342,7 @@ footerContainerBoton: {
 spacer: {
   width: '40%', // Ancho de cada botón
   height: '70%', // Ajustar altura de los botones
-  backgroundColor: '#b55b1f',
+  backgroundColor: '#2C3E50',
   justifyContent: 'center', // Centrar contenido verticalmente
   alignItems: 'center', // Centrar contenido horizontalmente
 },

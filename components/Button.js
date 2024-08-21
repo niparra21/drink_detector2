@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 3, // Ancho del borde
     borderColor: '#000000', // Color del borde (puedes cambiarlo según tu preferencia)
-    backgroundColor: '#8a2be2',
+    backgroundColor: '#3498DB',
     width: '100%',
     height: '100%',
     alignItems: 'center',
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   buttonLabel: {
-    color: '#ebbdf7',
+    color: '#FFFFFF',
     fontSize: 16,
   },
 });
