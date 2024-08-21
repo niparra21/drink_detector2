@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Button from './components/Button';
 import axios from 'axios';
@@ -10,9 +10,18 @@ const URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style ={styles.title}>
-        Drink detector
-      </Text>
+      <View style={styles.inicioContainer}></View>
+      <View style={styles.tituloContainer}>
+        <Text style ={styles.title}>
+          Drink detector
+        </Text>
+      </View>
+      <View style={styles.imagenContainer}>
+        <Image
+          source={require('./assets/imagenCentral.png')} // Reemplaza con la ruta a tu imagen local
+          style={styles.image}
+        />
+      </View>
       <View style={styles.footerContainer}>
         <Button label="Choose a photo" onPress={pickImageAsync} />
         <View style={styles.spacer}></View>
@@ -242,7 +251,7 @@ const pickImageAsync = async () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffebd1',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -251,11 +260,42 @@ const styles = StyleSheet.create({
     fontSize: 24, // Tamaño del texto más grande
     marginBottom: 20, // Espacio entre el texto y los botones
   },
-  footerContainer: {
-    flex: 1 / 3,
-    alignItems: 'center',
+  inicioContainer: {
+    width: '100%', // Ocupar todo el ancho
+    height: '5%', // Ocupar el 10% de la altura total
+    backgroundColor: '#d2c4a8',
+    justifyContent: 'center', // Centrar contenido verticalmente
+    alignItems: 'center', // Centrar contenido horizontalmente
+    position: 'absolute', // Posicionarlo en la parte superior
+    top: 0, // Anclarlo en la parte superior
   },
-  spacer: {
-    height: 20, // Espacio entre los botones
-  },
+  tituloContainer: {
+  width: '100%', // Ocupar todo el ancho
+  height: '15%', // Ocupar el 10% de la altura total
+  backgroundColor: '#b55b1f',
+  justifyContent: 'center', // Centrar contenido verticalmente
+  alignItems: 'center', // Centrar contenido horizontalmente
+  position: 'absolute', // Posicionarlo en la parte superior
+  top: '5%', // Anclarlo en la parte superior
+},
+imagenContainer: {
+  width: '100%',
+  height: '48%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'absolute',
+  top: '20%',
+},
+image: {
+  width: '100%',
+  height: '100%',
+  resizeMode: 'contain',
+},
+footerContainer: {
+  flex: 1 / 3,
+  alignItems: 'center',
+},
+spacer: {
+  height: 20,
+},
 });
