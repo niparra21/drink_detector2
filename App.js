@@ -183,7 +183,8 @@ const pickImageAsync = async () => {
         objectResult = 'Objetos detectados:\n' + localizedObjectAnnotations.map(object => `${object.name}: ${Math.round(object.score * 100)}%`).join('\n');
 
         // Buscar específicamente si se detecta un vaso
-        const foundGlass = localizedObjectAnnotations.find(object => object.name.toLowerCase() === 'cup' || object.name.toLowerCase() === 'glass');
+        const foundGlass = localizedObjectAnnotations.find(object =>['cup', 'glass', 'mug', 'tableware'].includes(object.name.toLowerCase())
+        );
         if (foundGlass) {
           objectResult += '\n\n¡Un vaso fue detectado!';
         } else {
