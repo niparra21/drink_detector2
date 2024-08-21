@@ -64,6 +64,10 @@ const takePhotoAsync = async () => {
                 type: 'TEXT_DETECTION',
                 maxResults: 5,
               },
+              {
+                type: 'OBJECT_LOCALIZATION', // Detección de objetos
+                maxResults: 10,
+              },
             ],
           },
         ],
@@ -80,29 +84,37 @@ const takePhotoAsync = async () => {
       const labels = response.data.responses[0].labelAnnotations;
       const logoAnnotations = response.data.responses[0].logoAnnotations;
       const textAnnotations = response.data.responses[0].textAnnotations;
-
+      const localizedObjectAnnotations = response.data.responses[0].localizedObjectAnnotations;
 
       // Mostrar los resultados
 
       if (logoAnnotations && logoAnnotations.length > 0) {
         let logoText = logoAnnotations.map(logo => `${logo.description}: ${Math.round(logo.score * 100)}%`).join('\n');
-        Alert.alert('Logos detectados:', logoText);
-      } else {
-        Alert.alert('No se detectaron logos.');
-      }
-
-      if (labels) {
+        if(logoText.toLowerCase().includes('the coca-cola company')){
+          Alert.alert('Coca-Cola Detectado');
+        } else {
+          Alert.alert('Marca detectada:', logoText);
+        }
+      } else if (textAnnotations && textAnnotations.length > 0){
+        const detectedText = textAnnotations[0].description;
+        if(detectedText.toLowerCase().includes('tropical')){
+          Alert.alert('Tropical Detectado');
+        } else {
+          Alert.alert('Texto detectado:', detectedText);
+        }
+      } else if(localizedObjectAnnotations && localizedObjectAnnotations.length > 0){
+        objectResult = 'Objetos detectados:\n' + localizedObjectAnnotations.map(object => `${object.name}: ${Math.round(object.score * 100)}%`).join('\n');
+        const foundGlass = localizedObjectAnnotations.find(object =>['cup', 'glass', 'mug', 'tableware'].includes(object.name.toLowerCase()));
+        if(foundGlass){
+          Alert.alert('Posible vaso de vidrio detectado');
+        } else {
+          Alert.alert('Objetos detectados:', objectResult);
+        }
+      }else if(labels){
         let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
         Alert.alert('Resultados:', resultText);
       } else {
-        Alert.alert('No se detectaron etiquetas.');
-      }
-
-      if (textAnnotations && textAnnotations.length > 0) {
-        const detectedText = textAnnotations[0].description;
-        Alert.alert('Texto detectado:', detectedText);
-      } else {
-        Alert.alert('No se detectó texto.');
+        Alert.alert('No se detectó elementos para procesar');
       }
 
     } catch (error) {
@@ -174,26 +186,9 @@ const pickImageAsync = async () => {
       const labels = response.data.responses[0].labelAnnotations;
       const logoAnnotations = response.data.responses[0].logoAnnotations;
       const textAnnotations = response.data.responses[0].textAnnotations;
-      //const localizedObjectAnnotations = response.data.responses[0].localizedObjectAnnotations;
-
       const localizedObjectAnnotations = response.data.responses[0].localizedObjectAnnotations;
 
-      let objectResult = '';
-      if (localizedObjectAnnotations && localizedObjectAnnotations.length > 0) {
-        objectResult = 'Objetos detectados:\n' + localizedObjectAnnotations.map(object => `${object.name}: ${Math.round(object.score * 100)}%`).join('\n');
-
-        // Buscar específicamente si se detecta un vaso
-        const foundGlass = localizedObjectAnnotations.find(object =>['cup', 'glass', 'mug', 'tableware'].includes(object.name.toLowerCase())
-        );
-        if (foundGlass) {
-          Alert.alert('¡Un vaso fue detectado!');
-          objectResult += '\n\n¡Un vaso fue detectado!';
-        } else {
-          objectResult += '\n\nNo se detectó un vaso.';
-        }
-      } else {
-        objectResult = 'No se detectaron objetos.';
-      }
+      
 
 
       // Mostrar los resultados
