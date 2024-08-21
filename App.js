@@ -212,7 +212,7 @@ const pickImageAsync = async () => {
       } else if(localizedObjectAnnotations && localizedObjectAnnotations.length > 0){
         objectResult = 'Objetos detectados:\n' + localizedObjectAnnotations.map(object => `${object.name}: ${Math.round(object.score * 100)}%`).join('\n');
         const foundGlass = localizedObjectAnnotations.find(object => object.name.toLowerCase() === 'cup' || object.name.toLowerCase() === 'glass');
-        Alert.alert('Objetos detectados:', detectedObjects);
+        Alert.alert('Objetos detectados:', objectResult);
       }else if(labels){
         let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
         Alert.alert('Resultados:', resultText);
