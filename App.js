@@ -174,7 +174,25 @@ const pickImageAsync = async () => {
       const labels = response.data.responses[0].labelAnnotations;
       const logoAnnotations = response.data.responses[0].logoAnnotations;
       const textAnnotations = response.data.responses[0].textAnnotations;
+      //const localizedObjectAnnotations = response.data.responses[0].localizedObjectAnnotations;
+
       const localizedObjectAnnotations = response.data.responses[0].localizedObjectAnnotations;
+
+      let objectResult = '';
+      if (localizedObjectAnnotations && localizedObjectAnnotations.length > 0) {
+        objectResult = 'Objetos detectados:\n' + localizedObjectAnnotations.map(object => `${object.name}: ${Math.round(object.score * 100)}%`).join('\n');
+
+        // Buscar específicamente si se detecta un vaso
+        const foundGlass = localizedObjectAnnotations.find(object => object.name.toLowerCase() === 'cup' || object.name.toLowerCase() === 'glass');
+        if (foundGlass) {
+          objectResult += '\n\n¡Un vaso fue detectado!';
+        } else {
+          objectResult += '\n\nNo se detectó un vaso.';
+        }
+      } else {
+        objectResult = 'No se detectaron objetos.';
+      }
+
 
       // Mostrar los resultados
       if (logoAnnotations && logoAnnotations.length > 0) {
@@ -194,6 +212,7 @@ const pickImageAsync = async () => {
       } else if(localizedObjectAnnotations && localizedObjectAnnotations.length > 0){
         objectResult = 'Objetos detectados:\n' + localizedObjectAnnotations.map(object => `${object.name}: ${Math.round(object.score * 100)}%`).join('\n');
         const foundGlass = localizedObjectAnnotations.find(object => object.name.toLowerCase() === 'cup' || object.name.toLowerCase() === 'glass');
+        Alert.alert('Objetos detectados:', detectedObjects);
       }else if(labels){
         let resultText = labels.map(label => `${label.description}: ${Math.round(label.score * 100)}%`).join('\n');
         Alert.alert('Resultados:', resultText);
