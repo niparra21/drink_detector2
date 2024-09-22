@@ -22,8 +22,8 @@ export default function App() {
       setLocation(userLocation.coords);
 
       // Hacer solicitud a Google Places API para obtener supermercados cercanos
-      const apiKey = 'AIzaSyA9SBeKW6wW_QlhElbZ5LwrZqWA0DhbaoI'; // Inserta tu clave de API de Google Places
-      const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=8000&type=supermarket&key=${apiKey}`;
+      const apiKey2 = 'AIzaSyA9SBeKW6wW_QlhElbZ5LwrZqWA0DhbaoI'; // Inserta tu clave de API de Google Places
+      const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${userLocation.coords.latitude},${userLocation.coords.longitude}&radius=8000&type=supermarket&key=${apiKey2}`;
       
       try {
         const response = await axios.get(url);
