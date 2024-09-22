@@ -9,9 +9,9 @@ import * as Font from 'expo-font';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-import HomeScreen from './screens/HomeScreen'; 
 import DetectorScreen from './screens/DetectorScreen';
 import MapScreen from './screens/MapScreen'; 
+import WazeScreen from './screens/WazeScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,7 +20,7 @@ export default function App() {
   <NavigationContainer>
       <Drawer.Navigator initialRouteName="Detector">
         <Drawer.Screen name="Detector" component={DetectorScreen} />
-        <Drawer.Screen name="HomeScreen" component={HomeScreen} />
+        <Drawer.Screen name="WazeScreen" component={WazeScreen} />
         <Drawer.Screen name="MapScreen" component={MapScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
