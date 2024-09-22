@@ -43,6 +43,27 @@ export default function App() {
     );
   }
 
+  const specificPlaces = [
+    {
+      id: 1,
+      name: "Soda Lago",
+      latitude: 9.8542515,
+      longitude: -83.9103355,
+    },
+    {
+      id: 2,
+      name: "Soda Deportiva",
+      latitude: 9.8574227,
+      longitude: -83.9108400,
+    },
+    {
+      id: 3,
+      name: "Soda Asetec",
+      latitude: 9.8554067,
+      longitude: -83.9123552,
+    },
+  ];
+
   return (
     <View style={styles.container}>
       <MapView
@@ -74,6 +95,17 @@ export default function App() {
             }}
             title={place.name}
             description={place.vicinity}
+          />
+        ))}
+
+        {specificPlaces.map((place) => (
+          <Marker
+            key={place.id}
+            coordinate={{
+              latitude: place.latitude,
+              longitude: place.longitude,
+            }}
+            title={place.name}
           />
         ))}
       </MapView>

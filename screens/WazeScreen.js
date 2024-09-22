@@ -48,6 +48,27 @@ export default function App() {
     Linking.openURL(url);
   };
 
+  const specificPlaces = [
+    {
+      id: 1,
+      name: "Soda Lago",
+      latitude: 9.8542515,
+      longitude: -83.9103355,
+    },
+    {
+      id: 2,
+      name: "Soda Deportiva",
+      latitude: 9.8574227,
+      longitude: -83.9108400,
+    },
+    {
+      id: 3,
+      name: "Soda Asetec",
+      latitude: 9.8554067,
+      longitude: -83.9123552,
+    },
+  ];
+
   return (
     <View style={styles.container}>
       <MapView
@@ -80,6 +101,19 @@ export default function App() {
             title={place.name}
             description={place.vicinity}
             onPress={() => openWaze(place.geometry.location.lat, place.geometry.location.lng)}
+          />
+        ))}
+
+        {/* Muestra los lugares específicos */}
+        {specificPlaces.map((place) => (
+          <Marker
+            key={place.id}
+            coordinate={{
+              latitude: place.latitude,
+              longitude: place.longitude,
+            }}
+            title={place.name}
+            onPress={() => Linking.openURL(`waze://?ll=${place.latitude},${place.longitude}&navigate=yes`)}
           />
         ))}
       </MapView>
