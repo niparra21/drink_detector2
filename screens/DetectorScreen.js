@@ -29,10 +29,10 @@ export default function App() {
     return null; // Mostrar un indicador de carga si la fuente no se ha cargado
   }
 
-
+/*<View style={styles.inicioContainer}></View>*/
   return (
     <View style={styles.container}>
-      <View style={styles.inicioContainer}></View>
+      
       <View style={styles.tituloContainer}>
         <Text style ={styles.title}>
           Drink detector

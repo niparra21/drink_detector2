@@ -9,8 +9,9 @@ import * as Font from 'expo-font';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-import HomeScreen from './screens/HomeScreen'; // Importamos la nueva pantalla que creamos
-import DetectorScreen from './screens/DetectorScreen'; // Si tienes más pantallas, agrégalas aquí
+import HomeScreen from './screens/HomeScreen'; 
+import DetectorScreen from './screens/DetectorScreen';
+import MapScreen from './screens/MapScreen'; // Si tienes más pantallas, agrégalas aquí
 
 const Drawer = createDrawerNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
   <NavigationContainer>
       <Drawer.Navigator initialRouteName="Detector">
         <Drawer.Screen name="Detector" component={DetectorScreen} />
+        <Drawer.Screen name="MapScreen" component={MapScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
