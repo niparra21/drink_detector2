@@ -11,7 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import HomeScreen from './screens/HomeScreen'; 
 import DetectorScreen from './screens/DetectorScreen';
-import MapScreen from './screens/MapScreen'; // Si tienes más pantallas, agrégalas aquí
+import MapScreen from './screens/MapScreen'; 
 
 const Drawer = createDrawerNavigator();
 
@@ -20,6 +20,7 @@ export default function App() {
   <NavigationContainer>
       <Drawer.Navigator initialRouteName="Detector">
         <Drawer.Screen name="Detector" component={DetectorScreen} />
+        <Drawer.Screen name="HomeScreen" component={HomeScreen} />
         <Drawer.Screen name="MapScreen" component={MapScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
